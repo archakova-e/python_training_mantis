@@ -2,9 +2,11 @@ from model.project import Project
 
 
 def test_add_project(app):
-    project = Project(name="Test9", description="Test9")
-    old_projects = app.project.get_project_list()
+    username = app.config['webadmin']['username']
+    password = app.config['webadmin']['password']
+    project = Project(name="Test022", description="Test")
+    old_projects = app.soap.get_project_list(username, password)
     app.project.create_project(project)
+    new_projects = app.soap.get_project_list(username, password)
     old_projects.append(project)
-    new_projects = app.project.get_project_list()
     assert sorted(old_projects, key=Project.id_or_max) == sorted(new_projects, key=Project.id_or_max)
